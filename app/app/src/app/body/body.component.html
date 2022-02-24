@@ -1,0 +1,24 @@
+<style>
+    div{
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        margin: 10px;
+    }
+
+    div > aside {
+        background-color: red;
+    }
+</style>
+
+<div>
+    <section>
+        <article *ngFor="let post of posts">
+            <h2>{{post.title}}</h2>
+            <p>{{post.description}}</p>
+            <!-- <button (click)="">Borrar</button> -->
+        </article>
+    </section>
+    <aside>
+        <app-login></app-login>
+    </aside>
+</div>
