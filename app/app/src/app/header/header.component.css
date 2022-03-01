@@ -1,0 +1,8 @@
+nav{
+    background-color: aquamarine;
+    padding: 1em;
+}
+nav > div{
+    display: flex;
+    justify-content: space-between;
+}

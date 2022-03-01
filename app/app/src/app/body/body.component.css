@@ -1,0 +1,32 @@
+div{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    margin: 10px;
+}
+
+/* div > aside {
+    background-color: red;
+    height: 300%;
+    border: 5px solid black;
+} */
+
+article{
+    border: 2px solid red;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+article > h2{
+    text-transform: uppercase;
+}
+
+article > p{
+    font-size: 1.1rem;
+    padding-left: 10px;
+}
+
+#tu{
+display: flex;
+justify-content: end;
+}

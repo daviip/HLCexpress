@@ -1,7 +1,8 @@
 const { defaultConfiguration } = require('express/lib/application');
+const Post = require('../models/Post')
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const SALT_WORK_FACTOR = 10;
 
 const UserShema = new Schema({
@@ -32,7 +33,7 @@ UserShema.pre('save', function(next){
 
 })
 
-UserShema.method.comparePassword = function(pass, cb){
+UserShema.methods.comparePassword = function(pass, cb){
     bcrypt.compare(pass, this.password, function(err, next){
         if(err) return cb(err);
         cb(null, next);

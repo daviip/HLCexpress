@@ -1,34 +1,29 @@
 var express = require('express');
 const { insertMany } = require('../models/User');
 var router = express.Router();
-const User  = require('../models/User')
+const User = require('../models/User');
+var bcrypt = require('bcryptjs');
 
 /* GET users listing. */
-router.get('/', function (req, res, next)
-{
+router.get('/', function (req, res, next) {
   User.find()
-    .then(users =>
-    {
+    .then(users => {
       res.json(users);
     })
-    .catch(e =>
-    {
+    .catch(e => {
       console.log(e)
     })
 });
 
-router.delete('/:id', function (req, res, next)
-{
+router.delete('/:id', function (req, res, next) {
   const { id } = req.params;
-  User.findByIdAndDelete(id, (err, user) =>
-  {
+  User.findByIdAndDelete(id, (err, user) => {
     if (err) return res.status(500).send(err);
-    res.send(`User ${user.username} deleted`);
+    res.send(`User ${ user.username } deleted`);
   })
 });
 
-router.put('/:id', function (req, res, next)
-{
+router.put('/:id', function (req, res, next) {
   const { id } = req.params;
   const { username, fullname, password, role } = req.body;
   User.findByIdAndUpdate(id, {
@@ -36,35 +31,29 @@ router.put('/:id', function (req, res, next)
     fullname,
     password,
     role
-  }, (err, user) =>
-  {
+  }, (err, user) => {
     if (err) return res.status(500).send(err);
-    res.send(`User ${user.username} updated`);
+    res.send(`User ${ user.username } updated`);
   })
 });
 
-// router.post('/singin', function (req, res, next)
-// {
-//   const { username, password } = req.body;
-//   User.findOne({ username }).then(user =>
-//   {
-//     if(!user) return res.status(404).send("User not found");
+router.post('/signin', function (req, res, next) {
+  const { username, password } = req.body;
+  User.findOne({ username }).then(user => {
+    if (!user) return res.status(404).send("User not found");
 
-//     user.comparePassword(password, (err, isMatch) =>
-//     {
-//       if(err) return res.status(500).send(err);
-//       if(!isMatch) return res.status(401).send("Incorrect password");
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) return res.status(500).send(err);
+      if (!isMatch) return res.status(401).send("Incorrect password");
 
-//       User.findOne({ username }).then(user =>
-//       {
-//         res.json(user);
-//       })
-//     })
-//   })
-// })
+      User.findOne({ username }).then(user => {
+        res.json(user);
+      })
+    })
+  })
+})
 
-router.post('/singup', function (req, res, next)
-{
+router.post('/singup', function (req, res, next) {
   if (req.body.lengtg == 0) return;
   const { username, fullname, password, role } = req.body;
   User.create({
@@ -72,9 +61,11 @@ router.post('/singup', function (req, res, next)
     fullname,
     password,
     role
+  }, (err, user) => {
+    if (err) return res.status(500).send(err);
+    res.json(user);
   })
-  console.log(`User ${username} added`)
-  res.send('User added');
+
 });
 
 
